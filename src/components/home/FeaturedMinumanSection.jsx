@@ -2,7 +2,7 @@
 import { Clock, Star, Coffee } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
-export default function FeaturedMinumanSection({ featuredMinuman }) {
+export default function FeaturedMinumanSection({ featuredMinuman, onNavigate }) {
   const [visibleMinuman, setVisibleMinuman] = useState(new Set());
   const minumanRefs = useRef([]);
 
@@ -34,7 +34,7 @@ export default function FeaturedMinumanSection({ featuredMinuman }) {
     <section>
       <div className="flex items-center justify-between mb-6 md:mb-8">
         <h2 className="text-xl md:text-3xl font-bold text-slate-800">Resep Minuman</h2>
-        <button className="text-slate-500 hover:text-slate-600 font-medium text-xs md:text-sm transition-colors duration-200 hover:underline">
+        <button onClick={() => onNavigate('minuman')} className="text-slate-500 hover:text-slate-600 font-medium text-xs md:text-sm transition-colors duration-200 hover:underline">
           Lihat Semua
         </button>
       </div>
@@ -49,6 +49,7 @@ export default function FeaturedMinumanSection({ featuredMinuman }) {
                 ? 'translate-y-0 opacity-100' 
                 : 'translate-y-8 opacity-0'
             }`}
+            onClick={() => onNavigate('details', recipe.id, 'minuman')}
           >
             <div className="relative bg-white/15 backdrop-blur-xl border border-white/25 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg md:shadow-2xl shadow-indigo-500/5 hover:shadow-indigo-500/15 transition-all duration-500 cursor-pointer group-hover:scale-105 group-hover:bg-white/20">
               

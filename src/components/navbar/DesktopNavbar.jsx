@@ -1,13 +1,25 @@
-// src/components/DesktopNavbar.jsx
+import { useState } from 'react';
 import logoUrl from '../../assets/LOGORN.png';
+import { Search } from 'lucide-react';
 
-export default function DesktopNavbar({ currentPage, onNavigate }) {
+export default function DesktopNavbar({ currentPage, onNavigate, onSearch }) {
+  const [searchQuery, setSearchQuery] = useState('');
   const navItems = [
     { id: 'home', label: 'Beranda' },
     { id: 'makanan', label: 'Makanan' },
     { id: 'minuman', label: 'Minuman' },
+    { id: 'favorites', label: 'Favorites' },
     { id: 'profile', label: 'Profile' }
   ];
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    onSearch(searchQuery);
+  };
 
   return (
     <nav className="hidden md:block shadow-lg border-b border-blue-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
@@ -36,21 +48,38 @@ export default function DesktopNavbar({ currentPage, onNavigate }) {
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="flex items-center space-x-10">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`px-4 py-3 text-base font-medium transition-all duration-200 border-b-2 ${
-                  currentPage === item.id
-                    ? 'text-blue-600 border-blue-500'
-                    : 'text-slate-600 border-transparent hover:text-blue-500 hover:border-blue-300'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          {/* Search Bar and Navigation Links */}
+          <div className="flex items-center space-x-8">
+            {/* Search Bar */}
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <input
+                type="text"
+                placeholder="Cari resep..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+              />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="text-gray-400" />
+              </div>
+            </form>
+
+            {/* Navigation Links */}
+            <div className="flex items-center space-x-10">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`px-4 py-3 text-base font-medium transition-all duration-200 border-b-2 ${
+                    currentPage === item.id
+                      ? 'text-blue-600 border-blue-500'
+                      : 'text-slate-600 border-transparent hover:text-blue-500 hover:border-blue-300'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </div>
          
         </div>
